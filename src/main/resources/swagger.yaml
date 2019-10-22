@@ -1,0 +1,144 @@
+---
+swagger: "2.0"
+info:
+  description: This is a zoo API
+  version: 1.0.0
+  title: Zoo API
+  contact:
+    email: mburunducova@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: virtserver.swaggerhub.com
+basePath: /catbug/zoo/1.0.0
+tags:
+- name: visitors
+  description: Operations available to regular visitors
+schemes:
+- https
+paths:
+  /shows:
+    get:
+      tags:
+      - visitors
+      summary: get shows schedule
+      description: By passing in the appropriate options, you can view available shows
+      operationId: getShows
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: all shows
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Show'
+        400:
+          description: bad input parameter
+  /tickets/shows:
+    post:
+      tags:
+      - visitors
+      summary: reserves ticket to show
+      description: Adds a reservation to show
+      operationId: addShowReservation
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: reservationDetails
+        description: Reservation to add
+        required: false
+        schema:
+          $ref: '#/definitions/ShowReservation'
+      responses:
+        201:
+          description: reservation created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+  /tickets/visits:
+    post:
+      tags:
+      - visitors
+      summary: reserves ticket to regular visit
+      description: Adds a visit reservation
+      operationId: addVisitReservation
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: reservationDetails
+        description: Reservation to add
+        required: false
+        schema:
+          $ref: '#/definitions/VisitReservation'
+      responses:
+        201:
+          description: reservation created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+definitions:
+  VisitReservation:
+    type: object
+    required:
+    - date
+    - fullName
+    - numberOfSeats
+    properties:
+      fullName:
+        type: string
+        example: John Doe
+      date:
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      numberOfSeats:
+        type: integer
+        example: 1
+  ShowReservation:
+    type: object
+    required:
+    - date
+    - fullName
+    - numberOfSeats
+    - showId
+    properties:
+      showId:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      fullName:
+        type: string
+        example: John Doe
+      date:
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      numberOfSeats:
+        type: integer
+        example: 1
+  Show:
+    required:
+    - name
+    - schedule
+    - showId
+    properties:
+      name:
+        type: string
+        example: Penguin feeding
+      showId:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      schedule:
+        type: string
+        example: Saturday 12:00
