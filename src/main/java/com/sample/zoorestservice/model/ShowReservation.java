@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Document
 @AllArgsConstructor
@@ -21,6 +21,6 @@ public class ShowReservation {
 
     private int numberOfSeats;
 
-    private OffsetDateTime dateTime;
+    private LocalDate dateTime;
 
 }
