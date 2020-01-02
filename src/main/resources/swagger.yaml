@@ -12,6 +12,8 @@ info:
 host: virtserver.swaggerhub.com
 basePath: /catbug/zoo/1.0.0
 tags:
+- name: admins
+  description: adding and deleting shows
 - name: visitors
   description: Operations available to regular visitors
 schemes:
@@ -28,13 +30,54 @@ paths:
       - application/json
       parameters: []
       responses:
-        200:
+        "200":
           description: all shows
           schema:
             type: array
             items:
               $ref: '#/definitions/Show'
-        400:
+        "400":
+          description: bad input parameter
+  /admin/shows:
+    post:
+      tags:
+      - admins
+      summary: add new show
+      description: you can add a new show to db
+      operationId: postShow
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: showDetails
+        description: Show to add
+        required: false
+        schema:
+          $ref: '#/definitions/Show'
+      responses:
+        "200":
+          description: new show is added
+        "400":
+          description: bad input parameter
+    delete:
+      tags:
+      - admins
+      summary: delete show
+      description: you can delete certain show
+      operationId: deleteShow
+      produces:
+      - application/json
+      parameters:
+      - name: showId
+        in: query
+        required: false
+        type: string
+      responses:
+        "200":
+          description: show is deleted
+        "400":
           description: bad input parameter
   /tickets/shows:
     post:
@@ -55,11 +98,11 @@ paths:
         schema:
           $ref: '#/definitions/ShowReservation'
       responses:
-        201:
+        "201":
           description: reservation created
-        400:
+        "400":
           description: invalid input, object invalid
-        409:
+        "409":
           description: an existing item already exists
   /tickets/visits:
     post:
@@ -80,11 +123,11 @@ paths:
         schema:
           $ref: '#/definitions/VisitReservation'
       responses:
-        201:
+        "201":
           description: reservation created
-        400:
+        "400":
           description: invalid input, object invalid
-        409:
+        "409":
           description: an existing item already exists
 definitions:
   VisitReservation:

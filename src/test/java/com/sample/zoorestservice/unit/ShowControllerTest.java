@@ -1,4 +1,4 @@
-package com.sample.zoorestservice;
+package com.sample.zoorestservice.unit;
 
 import com.sample.zoorestservice.model.Show;
 import com.sample.zoorestservice.repo.ShowRepository;
@@ -26,8 +26,8 @@ public class ShowControllerTest {
     private ShowController controller;
 
     @Test
-    public void testGetShows(){
-        Show show1 = new Show("1", "Penguins feeding", "Every saturday 12:00");
+    public void getShowsTest(){
+        Show show1 = new Show("1", "Penguins feeding", "Every Saturday 12:00");
         Show show2 = new Show("2", "Dolphins swimming", "Every Tuesday and Friday 11:00");
         List<Show> expected = asList(show1,show2);
         when(showRepository.findAll()).thenReturn(expected);
