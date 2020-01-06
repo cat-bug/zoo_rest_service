@@ -1,4 +1,4 @@
-package com.sample.zoorestservice;
+package com.sample.zoorestservice.unit;
 
 import com.sample.zoorestservice.model.Show;
 import com.sample.zoorestservice.model.ShowReservation;
