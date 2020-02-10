@@ -10,10 +10,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,5 +36,14 @@ public class ShowControllerTest {
 
         List<Show> actual = controller.getShows();
         assertThat("shows returned as expected", actual, containsInAnyOrder(expected.toArray()));
+    }
+
+    @Test
+    public void getShow(){
+        Show show1 = new Show("1", "Penguins feeding", "Every saturday 12:00");
+        when(showRepository.findById("1")).thenReturn(Optional.of(show1));
+
+        Show actual = controller.getShow("1");
+        assertThat("", actual, is(show1));
     }
 }

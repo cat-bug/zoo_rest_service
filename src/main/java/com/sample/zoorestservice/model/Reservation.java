@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Document
 @AllArgsConstructor
-public class ShowReservation {
+public class Reservation {
 
     @Id
     private String id;
