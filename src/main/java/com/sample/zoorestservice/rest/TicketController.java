@@ -1,33 +1,40 @@
 package com.sample.zoorestservice.rest;
 
-import com.sample.zoorestservice.model.ShowReservation;
-import com.sample.zoorestservice.model.VisitReservation;
-import com.sample.zoorestservice.repo.ShowReservationRepository;
-import com.sample.zoorestservice.repo.VisitReservationRepository;
+import com.sample.zoorestservice.model.Reservation;
+import com.sample.zoorestservice.repo.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+
+import static java.lang.String.format;
 
 @RestController
-public class TicketController {
-    private ShowReservationRepository showReservationRepository;
-    private VisitReservationRepository visitReservationRepository;
+@RequestMapping(value = "/tickets")
+public class TicketController extends BaseController {
+    private ReservationRepository reservationRepository;
 
     @Autowired
-    public TicketController(ShowReservationRepository showReservationRepository,
-                            VisitReservationRepository visitReservationRepository) {
-        this.showReservationRepository = showReservationRepository;
-        this.visitReservationRepository = visitReservationRepository;
+    public TicketController(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
     }
 
-    @PostMapping(value = "/tickets/shows")
-    public void reserveTicketForShow(@RequestBody ShowReservation showReservation){
-        showReservationRepository.insert(showReservation);
+    @PostMapping(value = "/shows")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void reserveTicketForShow(@RequestBody Reservation reservation){
+        reservationRepository.insert(reservation);
     }
 
-    @PostMapping(value = "/tickets/visits")
-    public void reserveTicketForVisit(@RequestBody VisitReservation visitReservation){
-        visitReservationRepository.insert(visitReservation);
+    @PostMapping(value = "/visits")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void reserveTicketForVisit(@RequestBody Reservation visitReservation){
+        reservationRepository.insert(visitReservation);
+    }
+
+    @GetMapping("/{reservationId}")
+    public Reservation getReservation(@PathVariable String reservationId){
+        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
+        return getEntityOrThrow(reservation, format("Reservation %s not found", reservationId));
     }
 }

@@ -53,7 +53,7 @@ paths:
         description: Reservation to add
         required: false
         schema:
-          $ref: '#/definitions/ShowReservation'
+          $ref: '#/definitions/Reservation'
       responses:
         201:
           description: reservation created
@@ -78,7 +78,7 @@ paths:
         description: Reservation to add
         required: false
         schema:
-          $ref: '#/definitions/VisitReservation'
+          $ref: '#/definitions/Reservation'
       responses:
         201:
           description: reservation created
@@ -87,24 +87,7 @@ paths:
         409:
           description: an existing item already exists
 definitions:
-  VisitReservation:
-    type: object
-    required:
-    - date
-    - fullName
-    - numberOfSeats
-    properties:
-      fullName:
-        type: string
-        example: John Doe
-      date:
-        type: string
-        format: date-time
-        example: 2016-08-29T09:12:33.001Z
-      numberOfSeats:
-        type: integer
-        example: 1
-  ShowReservation:
+  Reservation:
     type: object
     required:
     - date
